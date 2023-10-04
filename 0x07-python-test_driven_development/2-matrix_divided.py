@@ -27,5 +27,3 @@ def matrix_divided(matrix, div):
     new_matrix = list(map(lambda row:
                           list(map(lambda x: round(x/div, 2), row)), matrix))
     return new_matrix
-
-
