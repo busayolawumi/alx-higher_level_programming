@@ -21,11 +21,11 @@ try:
         data = line.split()
         try:
             file_size += int(data[-1])
-        except:
+        except Exception:
             pass
         try:
             status_codes[data[-2]] += 1
-        except:
+        except Exception:
             pass
         if counter % 10 == 0:
             print_stats(file_size, status_codes)
