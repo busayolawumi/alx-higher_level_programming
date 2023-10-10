@@ -1,40 +1,35 @@
 #!/usr/bin/python3
-"""
-reads stdin line by line and computes metrics
-"""
+"""Script that reads stdin line by line and computes metrics"""
 import sys
 
-file_size = 0
-status_tally = {"200": 0, "301": 0, "400": 0, "401": 0,
+
+def print_stats(file_size, status_codes):
+    """Function that prints the stats"""
+    print("File size: {}".format(file_size))
+    for key, value in sorted(status_codes.items()):
+        if value != 0:
+            print("{}: {}".format(key, value))
+
+
+status_codes = {"200": 0, "301": 0, "400": 0, "401": 0,
                 "403": 0, "404": 0, "405": 0, "500": 0}
-i = 0
+file_size = 0
+counter = 0
 try:
     for line in sys.stdin:
-        tokens = line.split()
-        if len(tokens) >= 2:
-            a = i
-            if tokens[-2] in status_tally:
-                status_tally[tokens[-2]] += 1
-                i += 1
-            try:
-                file_size += int(tokens[-1])
-                if a == i:
-                    i += 1
-            except FileNotFoundError:
-                if a == i:
-                    continue
-        if i % 10 == 0:
-            print("File size: {:d}".format(file_size))
-            for key, value in sorted(status_tally.items()):
-                if value:
-                    print("{:s}: {:d}".format(key, value))
-    print("File size: {:d}".format(file_size))
-    for key, value in sorted(status_tally.items()):
-        if value:
-            print("{:s}: {:d}".format(key, value))
-
+        counter += 1
+        data = line.split()
+        try:
+            file_size += int(data[-1])
+        except:
+            pass
+        try:
+            status_codes[data[-2]] += 1
+        except:
+            pass
+        if counter % 10 == 0:
+            print_stats(file_size, status_codes)
+    print_stats(file_size, status_codes)
 except KeyboardInterrupt:
-    print("File size: {:d}".format(file_size))
-    for key, value in sorted(status_tally.items()):
-        if value:
-            print("{:s}: {:d}".format(key, value))
+    print_stats(file_size, status_codes)
+    raise
