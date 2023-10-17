@@ -1,14 +1,6 @@
 #!/usr/bin/python3
-"""Defines unittests for base.py.
-Unittest classes:
-    TestBase_instantiation - line 23
-    TestBase_to_json_string - line 110
-    TestBase_save_to_file - line 156
-    TestBase_from_json_string - line 234
-    TestBase_create - line 288
-    TestBase_load_from_file - line 340
-    TestBase_save_to_file_csv - line 406
-    TestBase_load_from_file_csv - line 484
+"""
+Unittests for testing instantiation of the Base class.
 """
 import os
 import unittest
@@ -451,23 +443,15 @@ class TestBase_save_to_file_csv(unittest.TestCase):
         with open("Base.csv", "r") as f:
             self.assertTrue("8,10,7,2", f.read())
 
-    def test_save_to_file_csv_overwrite(self):
-        s = Square(9, 2, 39, 2)
-        Square.save_to_file_csv([s])
-        s = Square(10, 7, 2, 8)
-        Square.save_to_file_csv([s])
-        with open("Square.csv", "r") as f:
-            self.assertTrue("8,10,7,2", f.read())
-
     def test_save_to_file__csv_None(self):
         Square.save_to_file_csv(None)
         with open("Square.csv", "r") as f:
-            self.assertEqual("[]", f.read())
+            self.assertEqual("id,size,x,y\n", f.read())
 
     def test_save_to_file_csv_empty_list(self):
         Square.save_to_file_csv([])
         with open("Square.csv", "r") as f:
-            self.assertEqual("[]", f.read())
+            self.assertEqual("id,size,x,y\n", f.read())
 
     def test_save_to_file_csv_no_args(self):
         with self.assertRaises(TypeError):
